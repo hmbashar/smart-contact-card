@@ -1,0 +1,10 @@
+.smartcc-card{max-width:640px;margin:24px 0;padding:20px;border:1px solid #eee;border-radius:16px;font-family:ui-sans-serif,system-ui}
+.smartcc-name{font-weight:700;font-size:20px}
+.smartcc-sub{color:#666;margin-top:2px}
+.smartcc-links{list-style:none;padding:0;margin:12px 0}
+.smartcc-links li{margin:6px 0}
+.smartcc-links a{text-decoration:none}
+.smartcc-actions{display:flex;gap:20px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.smartcc-btn{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;text-decoration:none}
+.smartcc-qr{width:120px;height:120px}
+.smartcc-qr img{width:120px;height:120px;display:block}

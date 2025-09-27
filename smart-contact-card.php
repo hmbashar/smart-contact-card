@@ -27,9 +27,9 @@ if (file_exists($autoload)) {
 
 Smartcc\Plugin::init();
 
-register_activation_hook(__FILE__, function () {
-    Smartcc\Plugin::activate();
-});
-register_deactivation_hook(__FILE__, function () {
-    Smartcc\Plugin::deactivate();
-});
+// register_activation_hook(__FILE__, function () {
+//     Smartcc\Plugin::activate();
+// });
+// register_deactivation_hook(__FILE__, function () {
+//     Smartcc\Plugin::deactivate();
+// });
