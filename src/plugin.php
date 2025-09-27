@@ -2,6 +2,9 @@
 namespace Smartcc;
 
 use Smartcc\Shortcode\ContactShortcode;
+use Smartcc\Elementor\Config;
+
+
 
 class Plugin
 {
@@ -19,5 +22,8 @@ class Plugin
 
         // Shortcode only (Elementor / Gutenberg folders are placeholders for now)
         (new ContactShortcode())->register();
+        
+        // Elementor
+        (new Config())->init();
     }
 }

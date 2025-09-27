@@ -14,6 +14,10 @@ if (!defined('ABSPATH')) exit;
 define('SMARTCC_FILE', __FILE__);
 define('SMARTCC_DIR', plugin_dir_path(__FILE__));
 define('SMARTCC_URL', plugin_dir_url(__FILE__));
+define('SMARTCC_VERSION', '1.0.0');
+define('SMARTCC_NAME', 'Smart Contact Card');
+
+
 
 $autoload = __DIR__ . '/vendor/autoload.php';
 if (file_exists($autoload)) {
