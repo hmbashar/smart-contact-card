@@ -1,0 +1,27 @@
+{
+  "apiVersion": 3,
+  "name": "smartcc/contact-card",
+  "title": "SmartCC Contact Card",
+  "category": "widgets",
+  "icon": "id",
+  "description": "Render a SmartCC Contact Card (server-side).",
+  "attributes": {
+    "name": { "type": "string", "default": "" },
+    "title": { "type": "string", "default": "" },
+    "org": { "type": "string", "default": "" },
+    "phone": { "type": "string", "default": "" },
+    "email": { "type": "string", "default": "" },
+    "website": { "type": "string", "default": "" },
+    "address": { "type": "string", "default": "" },
+    "whatsapp": { "type": "string", "default": "" },
+    "telegram": { "type": "string", "default": "" },
+    "imo": { "type": "string", "default": "" },
+    "skype": { "type": "string", "default": "" },
+    "qr": { "type": "string", "default": "inline_vcard" },
+    "qrtext": { "type": "string", "default": "" },
+    "button": { "type": "string", "default": "Save Contact (.vcf)" },
+    "layout": { "type": "string", "default": "card" }
+  },
+  "editorScript": "file:index.js",
+  "style": "file:editor.css"
+}
