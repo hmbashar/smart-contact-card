@@ -177,3 +177,129 @@
   .smartcc-chip,
   .smartcc-btn { transition: none; }
 }
+
+
+/* === Minimal QR variant === */
+.smartcc-card.smartcc-card--minimal {
+    background-color: #2b8d9f;
+    border-color: #2b8d9f;
+}
+.smartcc-card--minimal {
+  padding: 20px;
+}
+
+.smartcc-minimal-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.smartcc-minimal-header {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.smartcc-minimal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.smartcc-minimal-list a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--smartcc-border);
+  padding-bottom: 2px;
+}
+.smartcc-minimal-list a:hover { opacity: .9; }
+
+.smartcc-minimal-right .smartcc-qr {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  border: 1px solid var(--smartcc-border);
+  background: #fff;
+  object-fit: contain;
+}
+
+/* Responsive stack */
+@media (max-width: 640px) {
+  .smartcc-minimal-grid {
+    grid-template-columns: 1fr;
+  }
+  .smartcc-minimal-right .smartcc-qr {
+    width: 120px;
+    height: 120px;
+    margin-top: 8px;
+  }
+}
+
+
+/* === Minimal QR variant === */
+.smartcc-card--minimal { padding: 20px; }
+
+.smartcc-minimal-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.smartcc-minimal-header {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.smartcc-minimal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.smartcc-minimal-list a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--smartcc-border);
+  padding-bottom: 2px;
+}
+.smartcc-minimal-list a:hover { opacity: .9; }
+
+.smartcc-minimal-right .smartcc-qr {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  border: 1px solid var(--smartcc-border);
+  background: #fff;
+  object-fit: contain;
+}
+
+/* Responsive stack */
+@media (max-width: 640px) {
+  .smartcc-minimal-grid { grid-template-columns: 1fr; }
+  .smartcc-minimal-right .smartcc-qr {
+    width: 120px;
+    height: 120px;
+    margin-top: 8px;
+  }
+}
+.smartcc-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--smartcc-border); background: #fff;
+}
+.smartcc-avatar--fallback {
+  display: grid; place-items: center; font-weight: 700;
+  color: var(--smartcc-accent);
+  background: linear-gradient(180deg, #eff6ff, #bfdbfe);
+}
+
