@@ -1,10 +1,179 @@
-.smartcc-card{max-width:640px;margin:24px 0;padding:20px;border:1px solid #eee;border-radius:16px;font-family:ui-sans-serif,system-ui}
-.smartcc-name{font-weight:700;font-size:20px}
-.smartcc-sub{color:#666;margin-top:2px}
-.smartcc-links{list-style:none;padding:0;margin:12px 0}
-.smartcc-links li{margin:6px 0}
-.smartcc-links a{text-decoration:none}
-.smartcc-actions{display:flex;gap:20px;align-items:center;margin-top:12px;flex-wrap:wrap}
-.smartcc-btn{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;text-decoration:none}
-.smartcc-qr{width:120px;height:120px}
-.smartcc-qr img{width:120px;height:120px;display:block}
+/* =========== Design tokens =========== */
+:root {
+  --smartcc-bg: #ffffff;
+  --smartcc-fg: #0f172a;        /* slate-900 */
+  --smartcc-sub: #475569;       /* slate-600 */
+  --smartcc-border: #e5e7eb;    /* gray-200 */
+  --smartcc-accent: #2563eb;    /* blue-600 */
+  --smartcc-accent-contrast: #ffffff;
+
+  --smartcc-radius: 16px;
+  --smartcc-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --smartcc-gap: 16px;
+
+  --smartcc-chip-bg: #f1f5f9;   /* slate-100 */
+  --smartcc-chip-fg: #0f172a;
+
+  --smartcc-qr-size: 140px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --smartcc-bg: #0b1220;
+    --smartcc-fg: #e5e7eb;
+    --smartcc-sub: #9ca3af;
+    --smartcc-border: #1f2937;
+    --smartcc-chip-bg: #111827;
+    --smartcc-chip-fg: #e5e7eb;
+    --smartcc-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+}
+
+/* =========== Card container =========== */
+.smartcc-card {
+  background: var(--smartcc-bg);
+  color: var(--smartcc-fg);
+  border: 1px solid var(--smartcc-border);
+  border-radius: var(--smartcc-radius);
+  box-shadow: var(--smartcc-shadow);
+  padding: 20px;
+  max-width: 840px;
+  margin: 20px 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* =========== Header =========== */
+.smartcc-header {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: var(--smartcc-gap);
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.smartcc-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--smartcc-border);
+  background: #fff;
+  display: block;
+}
+
+.smartcc-avatar--fallback {
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: var(--smartcc-accent);
+  background: linear-gradient(180deg, #eff6ff, #bfdbfe);
+}
+
+.smartcc-titleblock { min-width: 0; }
+.smartcc-name {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 800;
+}
+.smartcc-role {
+  margin: 4px 0 0 0;
+  color: var(--smartcc-sub);
+  font-size: 14px;
+}
+
+/* =========== Links (chips) =========== */
+.smartcc-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 8px 0 0 0;
+  margin: 0 0 14px 0;
+  border-top: 1px dashed var(--smartcc-border);
+}
+
+.smartcc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--smartcc-chip-bg);
+  color: var(--smartcc-chip-fg);
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform .08s ease, background .15s ease;
+}
+
+.smartcc-link a {
+  text-decoration: none;
+}
+.smartcc-link a:focus-visible .smartcc-chip,
+.smartcc-link a:hover .smartcc-chip {
+  background: #e2e8f0; /* slate-200 */
+  transform: translateY(-1px);
+}
+
+/* =========== Footer =========== */
+.smartcc-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--smartcc-gap);
+  align-items: center;
+}
+
+.smartcc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--smartcc-border);
+  background: var(--smartcc-accent);
+  color: var(--smartcc-accent-contrast);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: transform .08s ease, box-shadow .15s ease, filter .15s ease;
+}
+.smartcc-btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+.smartcc-btn:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
+.smartcc-qrwrap {
+  margin: 0;
+}
+.smartcc-qr {
+  width: var(--smartcc-qr-size);
+  height: var(--smartcc-qr-size);
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--smartcc-border);
+  background: #fff;
+}
+
+/* =========== Responsive =========== */
+@media (max-width: 640px) {
+  .smartcc-footer {
+    grid-template-columns: 1fr;
+  }
+  .smartcc-qr {
+    --smartcc-qr-size: 120px;
+    margin-top: -2px;
+    justify-self: start;
+  }
+}
+
+/* Larger screens: elevate sizing slightly */
+@media (min-width: 960px) {
+  .smartcc-name { font-size: 24px; }
+  .smartcc-qr   { --smartcc-qr-size: 160px; }
+}
+
+/* =========== Reduced motion =========== */
+@media (prefers-reduced-motion: reduce) {
+  .smartcc-chip,
+  .smartcc-btn { transition: none; }
+}
