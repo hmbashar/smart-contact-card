@@ -10,15 +10,15 @@
         <div class="smartcc-minimal-left">
             <header class="smartcc-minimal-header">
                 <?php if (!empty($avatar)): ?>
-                    <img class="smartcc-avatar" src="<?php echo $avatar; ?>" alt="<?php echo esc_attr($name); ?>"
+                    <img class="smartcc-avatar" src="<?php echo esc_url($avatar); ?>" alt="<?php echo esc_attr($name); ?>"
                         loading="lazy" decoding="async" />
                 <?php else: ?>
                     <div class="smartcc-avatar smartcc-avatar--fallback" aria-hidden="true">
-                        <?php echo strtoupper(mb_substr($name, 0, 1)); ?>
+                        <?php echo esc_html(strtoupper(mb_substr($name, 0, 1))); ?>
                     </div>
                 <?php endif; ?>
 
-                <h3 class="smartcc-name"><?php echo $name; ?></h3>
+                <h3 class="smartcc-name"><?php echo esc_html($name); ?></h3>
             </header>
 
             <ul class="smartcc-minimal-list">
@@ -33,7 +33,7 @@
 
         <?php if (!empty($qr_src)): ?>
             <div class="smartcc-minimal-right">
-                <img class="smartcc-qr" src="<?php echo $qr_src; ?>" alt="QR code for <?php echo esc_attr($name); ?>"
+                <img class="smartcc-qr" src="<?php echo esc_url($qr_src); ?>" alt="QR code for <?php echo esc_attr($name); ?>"
                     loading="lazy" decoding="async" />
             </div>
         <?php endif; ?>

@@ -26,4 +26,17 @@ class Plugin
         // Elementor
         (new Config())->init();
     }
+
+    public static function activate(): void
+    {
+        // Activation logic (if needed in future)
+        // For now, we just ensure the plugin is ready
+        flush_rewrite_rules();
+    }
+
+    public static function deactivate(): void
+    {
+        // Deactivation logic
+        flush_rewrite_rules();
+    }
 }

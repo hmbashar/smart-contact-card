@@ -128,8 +128,7 @@ class Config
      */
     public function admin_notice_missing_main_plugin()
     {
-        // Verify the nonce if 'activate' is present in the URL
-        if (isset($_GET['activate']) && check_admin_referer('activate-plugin_' . plugin_basename(__FILE__))) {
+        if (isset($_GET['activate'])) {
             unset($_GET['activate']);
         }
 
@@ -148,8 +147,7 @@ class Config
      */
     public function admin_notice_minimum_elementor_version()
     {
-        // Verify the nonce if 'activate' is present in the URL
-        if (isset($_GET['activate']) && check_admin_referer('activate-plugin_' . plugin_basename(__FILE__))) {
+        if (isset($_GET['activate'])) {
             unset($_GET['activate']);
         }
 
@@ -168,9 +166,7 @@ class Config
      */
     public function admin_notice_minimum_php_version()
     {
-
-        // Verify the nonce if 'activate' is present in the URL
-        if (isset($_GET['activate']) && check_admin_referer('activate-plugin_' . plugin_basename(__FILE__))) {
+        if (isset($_GET['activate'])) {
             unset($_GET['activate']);
         }
 

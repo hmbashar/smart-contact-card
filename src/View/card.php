@@ -11,17 +11,17 @@
 <article class="smartcc-card" itemscope itemtype="https://schema.org/Person" role="region" aria-label="<?php echo esc_attr($name); ?>">
   <header class="smartcc-header">
     <?php if (!empty($avatar)): ?>
-      <img class="smartcc-avatar" src="<?php echo $avatar; ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy" decoding="async" />
+      <img class="smartcc-avatar" src="<?php echo esc_url($avatar); ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy" decoding="async" />
     <?php else: ?>
-      <div class="smartcc-avatar smartcc-avatar--fallback" aria-hidden="true"><?php echo strtoupper(mb_substr($name,0,1)); ?></div>
+      <div class="smartcc-avatar smartcc-avatar--fallback" aria-hidden="true"><?php echo esc_html(strtoupper(mb_substr($name,0,1))); ?></div>
     <?php endif; ?>
     <div class="smartcc-titleblock">
-      <h3 class="smartcc-name" itemprop="name"><?php echo $name; ?></h3>
+      <h3 class="smartcc-name" itemprop="name"><?php echo esc_html($name); ?></h3>
       <?php if ($title || $org): ?>
         <p class="smartcc-role">
-          <?php if ($title): ?><span itemprop="jobTitle"><?php echo $title; ?></span><?php endif; ?>
+          <?php if ($title): ?><span itemprop="jobTitle"><?php echo esc_html($title); ?></span><?php endif; ?>
           <?php if ($title && $org): ?> · <?php endif; ?>
-          <?php if ($org): ?><span itemprop="worksFor"><?php echo $org; ?></span><?php endif; ?>
+          <?php if ($org): ?><span itemprop="worksFor"><?php echo esc_html($org); ?></span><?php endif; ?>
         </p>
       <?php endif; ?>
     </div>
@@ -41,11 +41,11 @@
 
   <footer class="smartcc-footer">
     <a class="smartcc-btn" href="<?php echo esc_url($vcard_url); ?>" download="<?php echo esc_attr($download_name); ?>">
-      <?php echo $button; ?>
+      <?php echo esc_html($button); ?>
     </a>
     <?php if (!empty($qr_src)): ?>
       <figure class="smartcc-qrwrap">
-        <img class="smartcc-qr" src="<?php echo $qr_src; ?>" alt="QR code for <?php echo esc_attr($name); ?>" loading="lazy" decoding="async" />
+        <img class="smartcc-qr" src="<?php echo esc_url($qr_src); ?>" alt="QR code for <?php echo esc_attr($name); ?>" loading="lazy" decoding="async" />
       </figure>
     <?php endif; ?>
   </footer>

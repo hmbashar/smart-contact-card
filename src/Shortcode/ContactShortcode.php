@@ -153,7 +153,11 @@ class ContactShortcode
             $qr_src = $a['qr_url']; // trust user-provided QR image
         } elseif (!empty($payload)) {
             // Generate via QuickChart (no PHP deps)
-            $qr_src = 'https://quickchart.io/qr?size=200&margin=2&text=' . rawurlencode($payload);
+            // Allow developers to filter the QR code generation service
+            $qr_src = apply_filters('smartcc_qr_code_url', 
+                'https://quickchart.io/qr?size=200&margin=2&text=' . rawurlencode($payload),
+                $payload
+            );
         }
 
         // --- View vars ---

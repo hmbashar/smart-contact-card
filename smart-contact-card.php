@@ -4,6 +4,9 @@
  * Description:  Shareable contact cards with QR + vCard via shortcode, Gutenberg block, and Elementor widget.
  * Version:      1.0.0
  * Author:       Md Abul Bashar
+ * Author URI:   https://profiles.wordpress.org/hmbashar/
+ * License:      GPL v2 or later
+ * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  smart-contact-card
  * Prefix:       SMARTCC_
  * Namespace:    Smartcc
@@ -31,9 +34,9 @@ if (file_exists($autoload)) {
 
 Smartcc\Plugin::init();
 
-// register_activation_hook(__FILE__, function () {
-//     Smartcc\Plugin::activate();
-// });
-// register_deactivation_hook(__FILE__, function () {
-//     Smartcc\Plugin::deactivate();
-// });
+register_activation_hook(__FILE__, function () {
+    Smartcc\Plugin::activate();
+});
+register_deactivation_hook(__FILE__, function () {
+    Smartcc\Plugin::deactivate();
+});
