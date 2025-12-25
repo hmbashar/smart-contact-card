@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "dir-archiver": "^2.1.0"
+  },
+  "scripts": {
+    "make-pot": "composer run-script make-pot",
+    "install-prod": "composer install --no-dev",
+    "bundle": "npm run install-prod && dir-archiver --src . --dest ../smart-contact-card.zip --exclude .DS_Store .git .distignore .gitattributes .github .gitignore .wordpress-org README.md composer.lock node_modules package-lock.json package.json phpcs.xml.dist SECURITY.md"
+  }
+}

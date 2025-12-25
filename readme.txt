@@ -2,7 +2,7 @@
 Contributors: hmbashar
 Tags: contact card, vcard, qr code, business card, elementor
 Requires at least: 5.8
-Tested up to: 6.7
+Tested up to: 6.9
 Stable tag: 1.0.0
 Requires PHP: 8.0
 License: GPLv2 or later

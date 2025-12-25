@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Minimal QR design.
  * Shows ONLY: avatar, name, phone, email, and custom QR image (qr_url).

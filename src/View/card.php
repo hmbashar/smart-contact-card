@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Professional, responsive contact card template.
  * Vars:
@@ -29,10 +33,10 @@
 
   <?php if (!empty($links)): ?>
     <ul class="smartcc-links">
-      <?php foreach ($links as $L): ?>
-        <li class="smartcc-link smartcc-link--<?php echo esc_attr($L['type']); ?>">
-          <a href="<?php echo esc_url($L['href']); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr($L['label']); ?>">
-            <span class="smartcc-chip"><?php echo esc_html($L['label']); ?></span>
+      <?php foreach ($links as $smartcc_link): ?>
+        <li class="smartcc-link smartcc-link--<?php echo esc_attr($smartcc_link['type']); ?>">
+          <a href="<?php echo esc_url($smartcc_link['href']); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr($smartcc_link['label']); ?>">
+            <span class="smartcc-chip"><?php echo esc_html($smartcc_link['label']); ?></span>
           </a>
         </li>
       <?php endforeach; ?>

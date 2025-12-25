@@ -12,15 +12,15 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 // Delete options if any (currently the plugin doesn't store options, but this is for future use)
 // Clean up any plugin-specific options
-$option_names = [
+$smartcc_option_names = [
     'smartcc_contact_card_widget',
 ];
 
-foreach ($option_names as $option) {
-    delete_option($option);
+foreach ($smartcc_option_names as $smartcc_option) {
+    delete_option($smartcc_option);
     
     // For multisite
-    delete_site_option($option);
+    delete_site_option($smartcc_option);
 }
 
 // Clear any cached data
