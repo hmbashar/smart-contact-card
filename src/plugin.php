@@ -10,7 +10,7 @@ class Plugin
 {
     public static function init(): void
     {
-        add_action('plugins_loaded', [static::class, 'boot']);
+        self::boot();
     }
 
     public static function boot(): void

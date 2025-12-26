@@ -113,6 +113,7 @@
 .smartcc-link a:hover .smartcc-chip {
   background: #e2e8f0; /* slate-200 */
   transform: translateY(-1px);
+  color: #0b1220;
 }
 
 /* =========== Footer =========== */

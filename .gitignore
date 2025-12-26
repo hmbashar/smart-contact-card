@@ -1,51 +1,12 @@
-# Operating System Files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor Files
-.idea/
-.vscode/
-*.sublime-project
-*.sublime-workspace
-*.swp
-*.swo
-
-# Dependency Directories
 /vendor/
 /node_modules/
-
-# Build Directories
-/build/
-/dist/
-
-# Composer
-composer.phar
-
-# Environment Files
+.DS_Store
+package-lock.json
 .env
-.env.*
-!.env.example
-
-# WordPress
-wp-config.php
-wp-content/uploads/
-wp-content/upgrade/
-wp-content/backup-db/
-wp-content/cache/
-wp-content/backups/
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Package Files
-*.zip
-*.tar
-*.tar.gz
-
-# Misc
-.sass-cache/
-.phpunit.result.cache
+.env.local
+.env.test
+.env.development
+.env.production
+.env.staging
+.env.example
+composer.lock
