@@ -10,6 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Shareable contact cards with QR codes and vCard via shortcode, Gutenberg block, and Elementor widget.
 
+
 == Description ==
 
 Smart Contact Card allows you to create professional, shareable contact cards on your WordPress site. Display contact information beautifully with QR codes and downloadable vCard files.
@@ -26,7 +27,11 @@ Smart Contact Card allows you to create professional, shareable contact cards on
 * 🌐 Schema.org markup for better SEO
 * 📱 Fully responsive design
 
+== How to Use ==
+
 **Shortcode Usage:**
+
+Add a contact card anywhere using the shortcode:
 
 `[smartcc_contact name="John Doe" title="CEO" org="Company Name" phone="+1234567890" email="john@example.com" website="https://example.com"]`
 
@@ -37,6 +42,18 @@ Smart Contact Card allows you to create professional, shareable contact cards on
 * **Messaging Apps:** whatsapp, telegram, imo, skype, wechat
 * **Display:** button, design (default/minimal_qr)
 * **QR Options:** qr_for (vcard/whatsapp/telegram/imo/skype/wechat/url), qr_url, qr_text
+
+**Elementor Widget Usage:**
+
+1. Edit your page with Elementor.
+2. Search for "Smart Contact Card" in the widget panel.
+3. Drag the widget into your layout.
+4. Fill in the contact details and customize the design using the widget controls.
+
+**Design Options:**
+
+- `design="default"` (full card with all details)
+- `design="minimal_qr"` (minimal card with avatar, name, phone, email, and custom QR)
 
 **QR Code Options:**
 
@@ -64,7 +81,27 @@ The plugin uses modern PHP practices with PSR-4 autoloading and is built with ex
 
 = How do I add a contact card to my page? =
 
-Simply use the shortcode: `[smartcc_contact name="Your Name" phone="+1234567890" email="you@example.com"]`
+Simply use the shortcode: `[smartcc_contact
+  name="Your Name"
+  title="Your Title"
+  org="Your Company"
+  avatar="https://example.com/avatar.jpg"
+  phone="+1234567890"
+  email="you@example.com"
+  website="https://example.com"
+  address="123 Main St, City, State, ZIP"
+  whatsapp="+1234567890"
+  telegram="@yourusername"
+  imo="your_imo_id"
+  skype="your_skype_id"
+  wechat="your_wechat_id"
+  button="Save Contact (.vcf)"
+  layout="card"
+  qr_for="vcard"
+  qr_url=""
+  qr_text=""
+  design="default"
+]`
 
 = Can I customize the design? =
 
