@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Smart Contact Card
  * Description:  Shareable contact cards with QR + vCard via shortcode, Gutenberg block, and Elementor widget.
- * Version:      1.1.0
+ * Version:      1.1.1
  * Author:       Md Abul Bashar
  * Author URI:   https://profiles.wordpress.org/hmbashar/
  * License:      GPL v2 or later
@@ -57,7 +57,7 @@ final class SmartContactCard
      */
     private function define_constants(): void
     {
-        define('SMARTCC_VERSION', '1.1.0');
+        define('SMARTCC_VERSION', '1.1.1');
         define('SMARTCC_FILE', __FILE__);
         define('SMARTCC_DIR', plugin_dir_path(__FILE__));
         define('SMARTCC_URL', plugin_dir_url(__FILE__));
