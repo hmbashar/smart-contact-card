@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Smart Contact Card
  * Description:  Shareable contact cards with QR + vCard via shortcode, Gutenberg block, and Elementor widget.
- * Version:      1.0.0
+ * Version:      1.1.0
  * Author:       Md Abul Bashar
  * Author URI:   https://profiles.wordpress.org/hmbashar/
  * License:      GPL v2 or later
@@ -57,7 +57,7 @@ final class SmartContactCard
      */
     private function define_constants(): void
     {
-        define('SMARTCC_VERSION', '1.0.0');
+        define('SMARTCC_VERSION', '1.1.0');
         define('SMARTCC_FILE', __FILE__);
         define('SMARTCC_DIR', plugin_dir_path(__FILE__));
         define('SMARTCC_URL', plugin_dir_url(__FILE__));
@@ -74,8 +74,10 @@ final class SmartContactCard
             require_once SMARTCC_DIR . 'vendor/autoload.php';
         } else {
             add_action('admin_notices', function () {
-                echo '<div class="notice notice-error"><p><strong>Smart Contact Card:</strong> Run <code>composer install</code> before activation.</p></div>';
+                echo '<div class="notice notice-error"><p><strong>Smart Contact Card:</strong> Run <code>composer install</code> before activation. The plugin will not work until the vendor directory is generated.</p></div>';
             });
+            // Prevent plugin from loading if autoloader is missing
+            return;
         }
     }
 
@@ -84,6 +86,11 @@ final class SmartContactCard
      */
     private function init_hooks(): void
     {
+        // Only register hooks if autoloader was successfully loaded
+        if (!class_exists('\\Smartcc\\plugin')) {
+            return;
+        }
+        
         add_action('plugins_loaded', [$this, 'plugin_loaded']);
         register_activation_hook(SMARTCC_FILE, [$this, 'activate']);
         register_deactivation_hook(SMARTCC_FILE, [$this, 'deactivate']);
@@ -94,8 +101,8 @@ final class SmartContactCard
      */
     public function plugin_loaded(): void
     {
-        if (class_exists('\Smartcc\Plugin')) {
-            \Smartcc\Plugin::init();
+        if (class_exists('\Smartcc\plugin')) {
+            \Smartcc\plugin::init();
         }
     }
 
@@ -104,8 +111,8 @@ final class SmartContactCard
      */
     public function activate(): void
     {
-        if (class_exists('\Smartcc\Plugin')) {
-            \Smartcc\Plugin::activate();
+        if (class_exists('\Smartcc\plugin')) {
+            \Smartcc\plugin::activate();
         }
     }
 
@@ -114,8 +121,8 @@ final class SmartContactCard
      */
     public function deactivate(): void
     {
-        if (class_exists('\Smartcc\Plugin')) {
-            \Smartcc\Plugin::deactivate();
+        if (class_exists('\Smartcc\plugin')) {
+            \Smartcc\plugin::deactivate();
         }
     }
 }

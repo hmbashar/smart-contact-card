@@ -6,7 +6,7 @@ use Smartcc\Elementor\Config;
 
 
 
-class Plugin
+class plugin
 {
     public static function init(): void
     {

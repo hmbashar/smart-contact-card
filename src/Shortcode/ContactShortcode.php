@@ -6,10 +6,36 @@ class ContactShortcode
 {
     public function register(): void
     {
-        add_shortcode('smartcc_contact', [$this, 'render']);
+        // Register shortcode on init hook to ensure proper WordPress initialization
+        // This fixes the issue where shortcode displays as raw text in Gutenberg/text editor
+        add_action('init', function() {
+            add_shortcode('smartcc_contact', [$this, 'render']);
+        }, 5);
 
         // Handle vCard download endpoint
         add_action('init', [$this, 'maybe_download_vcf']);
+        
+        // Fix line breaks in shortcodes (common issue in Gutenberg)
+        // This ensures shortcodes work even when pasted with line breaks
+        add_filter('the_content', [$this, 'fix_shortcode_formatting'], 7);
+    }
+    
+    /**
+     * Remove line breaks from within shortcodes to fix formatting issues.
+     * Gutenberg and text editors sometimes add line breaks that break shortcode processing.
+     */
+    public function fix_shortcode_formatting($content): string
+    {
+        // Pattern to match our shortcode with potential line breaks
+        $pattern = '/\[smartcc_contact\s+([^\]]*?)\]/s';
+        
+        $content = preg_replace_callback($pattern, function($matches) {
+            // Remove line breaks and extra spaces from shortcode attributes
+            $shortcode_content = preg_replace('/\s+/', ' ', $matches[0]);
+            return $shortcode_content;
+        }, $content);
+        
+        return $content;
     }
 
     /**

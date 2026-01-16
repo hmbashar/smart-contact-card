@@ -125,6 +125,14 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 
 ## Changelog
 
+### 1.1.0
+- **Fixed:** Shortcode not rendering in Gutenberg shortcode block and classic text editor
+- **Fixed:** Shortcode registration timing issue causing silent failures
+- **Fixed:** Line breaks in shortcodes preventing proper rendering
+- **Fixed:** Missing vendor directory causing plugin to fail silently on server
+- **Improved:** Better error handling and messaging when dependencies are missing
+- **Improved:** Autoloader check to prevent initialization without required files
+
 ### 1.0.0
 - Initial release
 - Shortcode support with extensive customization options
@@ -136,6 +144,9 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 - Schema.org markup
 
 ## Upgrade Notice
+
+### 1.1.0
+Bug fix release: Fixes shortcode rendering issues in Gutenberg and classic editor. Improves server deployment reliability.
 
 ### 1.0.0
 Initial release of Smart Contact Card plugin.
