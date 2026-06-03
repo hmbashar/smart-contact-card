@@ -3,7 +3,7 @@ Contributors: hmbashar
 Tags: contact card, vcard, qr code, business card, elementor
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -58,7 +58,7 @@ Add a contact card anywhere using the shortcode:
 **QR Code Options:**
 
 You can customize what the QR code encodes:
-* vCard (default) - Complete contact information
+* vCard (default) - Phone-friendly contact QR payload
 * WhatsApp - Direct WhatsApp chat link
 * Telegram - Telegram profile link
 * IMO - IMO messaging link
@@ -132,6 +132,12 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 
 == Changelog ==
 
+= 1.1.2 =
+* Fixed: QR code contact fields showing empty on Android scanners by restoring the compact MECard payload for default contact QR codes.
+* Fixed: iPhone scanner URL issue caused by escaped or pasted smart-quote URL values.
+* Improved: Website, avatar, and custom QR URL cleanup for shortcode and vCard download values.
+* Improved: vCard downloads now include the avatar URL as a PHOTO URI when provided.
+
 = 1.1.0 =
 * Fixed: Shortcode not rendering in Gutenberg shortcode block and classic text editor
 * Fixed: Shortcode registration timing issue causing silent failures
@@ -151,6 +157,9 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 * Schema.org markup
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Fixes QR contact scanning compatibility on Android and iPhone, including malformed website URLs from pasted smart quotes.
 
 = 1.1.0 =
 Bug fix release: Fixes shortcode rendering issues in Gutenberg and classic editor. Improves server deployment reliability.
