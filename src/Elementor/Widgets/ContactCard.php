@@ -142,7 +142,8 @@ class ContactCard extends Widget_Base
             'label' => esc_html__('QR Payload (default design)', 'smart-contact-card'),
             'type'  => Controls_Manager::SELECT,
             'options' => [
-                'vcard'    => 'vCard',
+                'vcard'    => esc_html__('vCard (iPhone / modern Android)', 'smart-contact-card'),
+                'mecard'   => esc_html__('MeCard (legacy Android scanners)', 'smart-contact-card'),
                 'whatsapp' => 'WhatsApp',
                 'telegram' => 'Telegram',
                 'imo'      => 'imo',

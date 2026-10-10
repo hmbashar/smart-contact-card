@@ -3,7 +3,7 @@ Contributors: hmbashar
 Tags: contact card, vcard, qr code, business card, elementor
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -41,7 +41,7 @@ Add a contact card anywhere using the shortcode:
 * **Contacts:** phone, email, website, address
 * **Messaging Apps:** whatsapp, telegram, imo, skype, wechat
 * **Display:** button, design (default/minimal_qr)
-* **QR Options:** qr_for (vcard/whatsapp/telegram/imo/skype/wechat/url), qr_url, qr_text
+* **QR Options:** qr_for (vcard/mecard/whatsapp/telegram/imo/skype/wechat/url), qr_url, qr_text
 
 **Elementor Widget Usage:**
 
@@ -58,7 +58,8 @@ Add a contact card anywhere using the shortcode:
 **QR Code Options:**
 
 You can customize what the QR code encodes:
-* vCard (default) - Phone-friendly contact QR payload
+* vCard (default) - Full contact QR with name, title, company, phone, email, website (best for iPhone)
+* MeCard - Compact legacy payload for older Android scanners
 * WhatsApp - Direct WhatsApp chat link
 * Telegram - Telegram profile link
 * IMO - IMO messaging link
@@ -132,6 +133,11 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 
 == Changelog ==
 
+= 1.1.3 =
+* Fixed: iPhone QR scans missing title and company by using a real vCard payload by default (MeCard kept as qr_for="mecard").
+* Fixed: iPhone Save Contact often omitting the avatar by embedding a resized JPEG PHOTO in the downloaded .vcf when the image can be fetched.
+* Improved: Elementor QR payload options now distinguish vCard vs MeCard.
+
 = 1.1.2 =
 * Fixed: QR code contact fields showing empty on Android scanners by restoring the compact MECard payload for default contact QR codes.
 * Fixed: iPhone scanner URL issue caused by escaped or pasted smart-quote URL values.
@@ -157,6 +163,9 @@ Use the `qr_url` parameter to specify your own QR code image URL, or use `qr_tex
 * Schema.org markup
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Fixes remaining iPhone contact QR issues: title/company in scanned QR, and avatar in downloaded vCards.
 
 = 1.1.2 =
 Fixes QR contact scanning compatibility on Android and iPhone, including malformed website URLs from pasted smart quotes.

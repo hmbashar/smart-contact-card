@@ -67,6 +67,7 @@ class ContactShortcode
         $avatar  = isset($_GET['avatar']) ? $this->normalize_url_value(wp_unslash($_GET['avatar'])) : '';
         $address = isset($_GET['address']) ? sanitize_text_field($this->normalize_shortcode_value(wp_unslash($_GET['address']))) : '';
 
+        // Embed avatar bytes when possible — iOS Contacts often ignores PHOTO;VALUE=URI.
         $vcard_file = $this->build_vcard_file([
             'name' => $name,
             'title' => $title,
@@ -76,6 +77,9 @@ class ContactShortcode
             'website' => $website,
             'avatar' => $avatar,
             'address' => $address,
+        ], [
+            'include_photo' => true,
+            'embed_photo' => true,
         ]);
 
         // Stream file with correct headers
@@ -126,10 +130,7 @@ class ContactShortcode
         $name_raw = $a['name'] ?: 'Contact';
         $phone_clean = $this->clean_phone($a['phone']);
 
-        // ---------------------------
-        // vCard for file streaming and optional full-vCard QR payloads.
-        // ---------------------------
-        $vcard_file = $this->build_vcard_file([
+        $contact_data = [
             'name' => $name_raw,
             'title' => $a['title'],
             'org' => $a['org'],
@@ -138,11 +139,21 @@ class ContactShortcode
             'website' => $a['website'],
             'avatar' => $a['avatar'],
             'address' => $a['address'],
+        ];
+
+        // QR-friendly vCard: include TITLE/ORG for iPhone, omit PHOTO so the QR stays scannable.
+        $vcard_qr = $this->build_vcard_file($contact_data, [
+            'include_photo' => false,
+            'embed_photo' => false,
         ]);
 
-        // ---------------------------
-        // Compact contact QR payload. Android scanners parse this more consistently than multiline vCards.
-        // ---------------------------
+        // Optional denser QR with remote PHOTO URI (still no base64 — that blows past QR capacity).
+        $vcard_full = $this->build_vcard_file($contact_data, [
+            'include_photo' => true,
+            'embed_photo' => false,
+        ]);
+
+        // Legacy compact payload for scanners that prefer MeCard.
         $mecard = "MECARD:";
         $mecard .= "N:" . $this->escape_mecard_value($name_raw) . ";";
         if (!empty($phone_clean)) $mecard .= "TEL:" . $this->escape_mecard_value($phone_clean) . ";";
@@ -229,13 +240,16 @@ class ContactShortcode
                     elseif (!empty($a['email'])) $payload = 'mailto:' . $a['email'];
                     elseif (!empty($a['phone'])) $payload = 'tel:' . $a['phone'];
                     break;
-                case 'vcard_full':
-                    $payload = $vcard_file;
-                    break;
                 case 'mecard':
+                    $payload = $mecard;
+                    break;
+                case 'vcard_full':
+                    $payload = $vcard_full;
+                    break;
                 case 'vcard':
                 default:
-                    $payload = $mecard;
+                    // Real vCard so iPhone shows title/company; MeCard cannot carry those fields.
+                    $payload = $vcard_qr;
                     break;
             }
         }
@@ -330,8 +344,14 @@ class ContactShortcode
         return is_string($url) ? esc_url_raw($url) : '';
     }
 
-    private function build_vcard_file(array $data): string
+    /**
+     * @param array{include_photo?:bool,embed_photo?:bool} $options
+     */
+    private function build_vcard_file(array $data, array $options = []): string
     {
+        $include_photo = !empty($options['include_photo']);
+        $embed_photo = !empty($options['embed_photo']);
+
         $name = $data['name'] ?? 'Contact';
         $name = $name !== '' ? $name : 'Contact';
         $title = $data['title'] ?? '';
@@ -358,12 +378,175 @@ class ContactShortcode
         if (!empty($phone_clean)) $v_lines[] = "TEL;TYPE=CELL:" . $this->escape_vcard_value($phone_clean);
         if (!empty($email)) $v_lines[] = "EMAIL;TYPE=INTERNET:" . $this->escape_vcard_value($email);
         if (!empty($website)) $v_lines[] = "URL:" . $this->escape_vcard_value($website);
-        if (!empty($avatar)) $v_lines[] = "PHOTO;VALUE=URI:" . $this->escape_vcard_value($avatar);
+
+        if ($include_photo && !empty($avatar)) {
+            $photo_line = $this->build_photo_line((string) $avatar, $embed_photo);
+            if ($photo_line !== '') {
+                $v_lines[] = $photo_line;
+            }
+        }
+
         if (!empty($address)) $v_lines[] = "ADR;TYPE=WORK:;;" . $this->escape_vcard_value($address) . ";;;;";
 
         $v_lines[] = "END:VCARD";
 
         return implode("\r\n", $v_lines) . "\r\n";
+    }
+
+    private function build_photo_line(string $avatar_url, bool $embed): string
+    {
+        if ($embed) {
+            $photo = $this->fetch_avatar_for_vcard($avatar_url);
+            if ($photo !== null) {
+                $line = 'PHOTO;ENCODING=b;TYPE=' . $photo['type'] . ':' . $photo['data'];
+                return $this->fold_vcard_line($line);
+            }
+        }
+
+        return 'PHOTO;VALUE=URI:' . $this->escape_vcard_value($avatar_url);
+    }
+
+    /**
+     * Fetch and prepare a small avatar for iOS-compatible embedded PHOTO.
+     *
+     * @return array{type:string,data:string}|null type is JPEG|PNG; data is base64
+     */
+    private function fetch_avatar_for_vcard(string $avatar_url): ?array
+    {
+        $avatar_url = esc_url_raw($avatar_url);
+        if ($avatar_url === '' || !preg_match('#^https?://#i', $avatar_url)) {
+            return null;
+        }
+
+        $cache_key = 'smartcc_photo_' . md5($avatar_url);
+        $cached = get_transient($cache_key);
+        if (is_array($cached) && !empty($cached['type']) && !empty($cached['data'])) {
+            return $cached;
+        }
+
+        $response = wp_remote_get($avatar_url, [
+            'timeout' => 8,
+            'redirection' => 3,
+            'limit_response_size' => 512000,
+            'headers' => [
+                'Accept' => 'image/jpeg,image/png,image/*;q=0.8',
+            ],
+        ]);
+
+        if (is_wp_error($response) || (int) wp_remote_retrieve_response_code($response) !== 200) {
+            return null;
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        if (!is_string($body) || $body === '' || strlen($body) > 512000) {
+            return null;
+        }
+
+        $content_type = strtolower((string) wp_remote_retrieve_header($response, 'content-type'));
+        $type = $this->detect_image_type($body, $content_type);
+        if ($type === null) {
+            return null;
+        }
+
+        // Prefer a compact JPEG for Contacts apps; fall back to original PNG/JPEG bytes.
+        $prepared = $this->prepare_avatar_bytes($body, $type);
+        if ($prepared === null) {
+            return null;
+        }
+
+        set_transient($cache_key, $prepared, HOUR_IN_SECONDS);
+
+        return $prepared;
+    }
+
+    /**
+     * @return array{type:string,data:string}|null
+     */
+    private function prepare_avatar_bytes(string $bytes, string $type): ?array
+    {
+        if (!function_exists('imagecreatefromstring')) {
+            return [
+                'type' => $type,
+                'data' => base64_encode($bytes),
+            ];
+        }
+
+        $image = @imagecreatefromstring($bytes);
+        if ($image === false) {
+            return [
+                'type' => $type,
+                'data' => base64_encode($bytes),
+            ];
+        }
+
+        $width = imagesx($image);
+        $height = imagesy($image);
+        $max = 320;
+
+        if ($width > 0 && $height > 0 && ($width > $max || $height > $max)) {
+            $scale = min($max / $width, $max / $height);
+            $new_w = max(1, (int) round($width * $scale));
+            $new_h = max(1, (int) round($height * $scale));
+            $resized = imagecreatetruecolor($new_w, $new_h);
+            if ($resized !== false) {
+                imagealphablending($resized, true);
+                imagesavealpha($resized, false);
+                $white = imagecolorallocate($resized, 255, 255, 255);
+                imagefilledrectangle($resized, 0, 0, $new_w, $new_h, $white);
+                imagecopyresampled($resized, $image, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
+                imagedestroy($image);
+                $image = $resized;
+            }
+        }
+
+        ob_start();
+        imagejpeg($image, null, 82);
+        $jpeg = ob_get_clean();
+        imagedestroy($image);
+
+        if (!is_string($jpeg) || $jpeg === '') {
+            return [
+                'type' => $type,
+                'data' => base64_encode($bytes),
+            ];
+        }
+
+        return [
+            'type' => 'JPEG',
+            'data' => base64_encode($jpeg),
+        ];
+    }
+
+    private function detect_image_type(string $bytes, string $content_type): ?string
+    {
+        if (strncmp($bytes, "\xFF\xD8\xFF", 3) === 0 || str_contains($content_type, 'jpeg') || str_contains($content_type, 'jpg')) {
+            return 'JPEG';
+        }
+
+        if (strncmp($bytes, "\x89PNG\r\n\x1A\n", 8) === 0 || str_contains($content_type, 'png')) {
+            return 'PNG';
+        }
+
+        return null;
+    }
+
+    private function fold_vcard_line(string $line): string
+    {
+        $limit = 75;
+        if (strlen($line) <= $limit) {
+            return $line;
+        }
+
+        $chunks = [substr($line, 0, $limit)];
+        $offset = $limit;
+        $length = strlen($line);
+
+        while ($offset < $length) {
+            $chunks[] = ' ' . substr($line, $offset, $limit - 1);
+            $offset += $limit - 1;
+        }
+
+        return implode("\r\n", $chunks);
     }
 
     private function clean_phone($phone): string
