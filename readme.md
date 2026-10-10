@@ -2,7 +2,7 @@
 
 Shareable contact cards with QR codes and vCard via shortcode, Gutenberg block, and Elementor widget.
 
-Tested up to: WordPress 7.0
+Tested up to: WordPress 7.1.3
 
 ## Features
 
