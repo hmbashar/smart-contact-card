@@ -9,9 +9,11 @@ jobs:
   deploy:
     name: Deploy to WordPress.org
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install PHP dependencies
         uses: ramsey/composer-install@57532f8be5bda426838819c5ee9afb8af389d51a
@@ -26,13 +28,9 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: smart-contact-card
 
       - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ steps.deploy.outputs.zip-path }}
-          asset_name: ${{ github.event.repository.name }}.zip
-          asset_content_type: application/zip
+          files: ${{ steps.deploy.outputs.zip-path }}

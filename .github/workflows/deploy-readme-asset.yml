@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - trunk
-    paths:
-      - .wordpress-org/**
-      - .wordpress-org/blueprints/**
-      - readme.txt
 
 jobs:
   update-assets-and-readme:
@@ -20,3 +16,4 @@ jobs:
       env:
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        SLUG: smart-contact-card
